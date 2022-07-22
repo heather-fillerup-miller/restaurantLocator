@@ -311,6 +311,7 @@ const dataTest2 = [
       ]
 
 router.get('/', async (req, res, next) => {
+    console.log("State: " + req.query.state + " City: " + req.query.city);
     // const state = req.query.state;
     // const city = req.query.city;
     // const options = {
