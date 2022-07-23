@@ -5,29 +5,31 @@ const axios = require('axios');
 router.get('/', async (req, res, next) => {
   const state = req.query.state;
   const city = req.query.city;
+  console.log("City Param " + req.query.city)
   const pageNumber = Math.floor(Math.random() * 50); //currently 492 results in Des Moines
   const options = {
     method: 'GET',
     url: `https://restaurants-near-me-usa.p.rapidapi.com/restaurants/location/state/${state}/city/${city}/${pageNumber}`,
+    // params: {city: requestTags, number: '1'},
     headers: {
       'X-RapidAPI-Key': `${process.env.API_KEY}`,
       'X-RapidAPI-Host': 'restaurants-near-me-usa.p.rapidapi.com'
     }
   };
   console.log("Options: " + JSON.stringify(options));
-//   try {
-//     response = await axios.request(options);
-//     var data = response.data;
-//     console.log("response.data: " + data + '\n');
-//     console.log("response.data.restaurants: " + data.restaurants + '\n');
-//   } catch (error) {
-//     console.error(error);
-//   }
+  // try {
+  //   response = await axios.request(options);
+  //   var data = response.data;
+  //   console.log("response.data: " + data + '\n');
+  //   console.log("response.data.restaurants: " + data.restaurants + '\n');
+  // } catch (error) {
+  //   console.error(error);
+  // }
   var locations = dataToTest1.restaurants.map(item => ({
     id: item.id,
     restaurantName: item.restaurantName,
     cuisineType: item.cuisineType,
-    phoneNo.: item.phone,
+    phoneNo: item.phone,
     website: item.website
   }))
   console.log("mapped locations: " + JSON.stringify(locations) + '\n');

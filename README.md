@@ -32,9 +32,9 @@ Use .env file to store API_KEY
 
 ### Request
 
-`GET /locators/?state={IA}&city={Des Moines}`
+`GET /locators?state={IA}&city={Des Moines}`
 
-    curl http://localhost:9000/locator/?state=IA&city=Des%20Moines
+    await fetch('http://localhost:9000/locator?state=IA&city=Des Moines')
 
 ### Response
 
