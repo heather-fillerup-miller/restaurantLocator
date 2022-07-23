@@ -17,15 +17,15 @@ router.get('/', async (req, res, next) => {
     }
   };
   console.log("Options: " + JSON.stringify(options));
-  // try {
-  //   response = await axios.request(options);
-  //   var data = response.data;
-  //   console.log("response.data: " + data + '\n');
-  //   console.log("response.data.restaurants: " + data.restaurants + '\n');
-  // } catch (error) {
-  //   console.error(error);
-  // }
-  var locations = dataToTest1.restaurants.map(item => ({
+  try {
+    response = await axios.request(options);
+    var data = response.data;
+    console.log("response.data: " + data + '\n');
+    console.log("response.data.restaurants: " + data.restaurants + '\n');
+  } catch (error) {
+    console.error(error);
+  }
+  var locations = data.restaurants.map(item => ({
     id: item.id,
     restaurantName: item.restaurantName,
     cuisineType: item.cuisineType,
