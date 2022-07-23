@@ -27,6 +27,8 @@ router.get('/', async (req, res, next) => {
     id: item.id,
     restaurantName: item.restaurantName,
     cuisineType: item.cuisineType,
+    phoneNo.: item.phone,
+    website: item.website
   }))
   console.log("mapped locations: " + JSON.stringify(locations) + '\n');
   res.json(locations);
