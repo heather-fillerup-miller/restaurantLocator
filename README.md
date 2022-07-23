@@ -26,12 +26,13 @@ It uses `package.json` defines run commands
 # REST API
 
 The REST API to the example app is described below.
+Use .env file to store API_KEY
 
 ## Get list of Restaurants
 
 ### Request
 
-`GET /locators/?state={IA}&city={Des Moines`
+`GET /locators/?state={IA}&city={Des Moines}`
 
     curl http://localhost:9000/locator/?state=IA&city=Des%20Moines
 
