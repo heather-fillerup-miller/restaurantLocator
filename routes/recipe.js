@@ -3,7 +3,7 @@ var router = express.Router();
 const axios = require('axios');
 const { query } = require('express');
 
-const data = {
+var data = {
     recipes: [
       {
         vegetarian: true,
@@ -56,20 +56,22 @@ const data = {
 
 router.get('/', async (req, res, next) => {
     var requestTags = req.query.tags; //breakfast, eggs
-    // const options = {
-    //     method: 'GET',
-    //     url: 'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/random',
-    //     params: {tags: requestTags, number: '1'},
-    // headers: {
-    //     'X-RapidAPI-Key': 'e2013e813amsh63feda0fde3d880p17961bjsn2802b3c0828b',
-    //     'X-RapidAPI-Host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com'
-    // }};
-    // axios.request(options).then(function (response) {
-    //     data = response.data;
-    //     console.log(data.recipes);
-    // }).catch(function (error) {
+    const options = {
+        method: 'GET',
+        url: 'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/random',
+        params: {tags: requestTags, number: '1'},
+    headers: {
+        'X-RapidAPI-Key': `${process.env.API_KEY}`,
+        'X-RapidAPI-Host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com'
+    }};
+    // try {
+    //   response = await axios.request(options);
+    //   data = response.data;
+    //   console.log(data.recipes);
+    // }catch(error) {
     //     console.error(error);
-    // });
+    // };
+
     var recipe = data.recipes.map(item => ({
         id: item.id,
         healthScore: item.healthScore,
