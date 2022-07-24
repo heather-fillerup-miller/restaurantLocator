@@ -5,7 +5,8 @@ const axios = require('axios');
 router.get('/', async (req, res, next) => {
   const state = req.query.state;
   const city = req.query.city;
-  var pageNumber = 0; //initially pull 1st page to get number of results for randomization
+  var pageNumber = 0; //initially pull 1st page to get number of results for randomization **COMMENT OUT FOR ONLY DES MOINES**
+  // var pageNumber = Math.floor(Math.random() * 50); //currently 492 results in Des Moines **UNCOMMENT FOR ONLY DESMOINES**
 
   const options = {
     method: 'GET',
@@ -16,7 +17,7 @@ router.get('/', async (req, res, next) => {
     }
   };
 
-  // first call to RapidAPI to get the number of possible results
+  // first request to RapidAPI to get the number of possible results **COMMENT OUT FOR ONLY DES MOINES**
   try {
     response = await axios.request(options);
     // get a random page number based on the number of results returned
@@ -26,8 +27,10 @@ router.get('/', async (req, res, next) => {
     res.status(500).send("Server Error, please try again");
   }
 
-  //update the url with the random page number
+  // update the url with the random page number **COMMENT OUT FOR ONLY DES MOINES**
   options.url = `https://restaurants-near-me-usa.p.rapidapi.com/restaurants/location/state/${state}/city/${city}/${pageNumber}`;
+  
+  // Request to get restuarant location
   try {
     response = await axios.request(options);
     console.log("RapidAPI Response: " + JSON.stringify(response.data) + '/n');
@@ -46,6 +49,8 @@ router.get('/', async (req, res, next) => {
 });
 
 module.exports = router;
+
+
 
 // Results of Des Moines API call page 0 for testing
 const testData = {

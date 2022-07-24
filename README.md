@@ -10,6 +10,8 @@ The application was created using Express Application Generator
 
 `routes/locator.js` contains the handling for requests
 
+`.env` add to route folder with API_KEY variable for use with RapidAPI
+
 It uses `package.json` defines run commands
 
 ## Install
