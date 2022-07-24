@@ -41,7 +41,7 @@ Use .env file to store API_KEY
 ### Response
 
     HTTP/1.1 200 OK
-    Date: Thu, 24 Feb 2011 12:36:30 GMT
+    Date: Sun, 24 July 2022 12:36:30 GMT
     Status: 200 OK
     Connection: close
     Content-Type: application/json
