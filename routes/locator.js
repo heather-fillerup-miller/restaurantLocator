@@ -5,41 +5,50 @@ const axios = require('axios');
 router.get('/', async (req, res, next) => {
   const state = req.query.state;
   const city = req.query.city;
-  console.log("City Param " + req.query.city)
-  const pageNumber = Math.floor(Math.random() * 50); //currently 492 results in Des Moines
+  var pageNumber = 0; //initially pull 1st page to get number of results for randomization
+
   const options = {
     method: 'GET',
     url: `https://restaurants-near-me-usa.p.rapidapi.com/restaurants/location/state/${state}/city/${city}/${pageNumber}`,
-    // params: {city: requestTags, number: '1'},
     headers: {
       'X-RapidAPI-Key': `${process.env.API_KEY}`,
       'X-RapidAPI-Host': 'restaurants-near-me-usa.p.rapidapi.com'
     }
   };
-  console.log("Options: " + JSON.stringify(options));
+
+  // first call to RapidAPI to get the number of possible results
   try {
     response = await axios.request(options);
-    var data = response.data;
-    console.log("response.data: " + data + '\n');
-    console.log("response.data.restaurants: " + data.restaurants + '\n');
+    // get a random page number based on the number of results returned
+    pageNumber = Math.floor(Math.random() * Math.floor(response.data.matching_results / 10));
   } catch (error) {
     console.error(error);
+    res.status(500).send("Server Error, please try again");
   }
-  var locations = data.restaurants.map(item => ({
-    id: item.id,
-    restaurantName: item.restaurantName,
-    cuisineType: item.cuisineType,
-    phoneNo: item.phone,
-    website: item.website
-  }))
-  console.log("mapped locations: " + JSON.stringify(locations) + '\n');
-  res.json(locations);
+
+  //update the url with the random page number
+  options.url = `https://restaurants-near-me-usa.p.rapidapi.com/restaurants/location/state/${state}/city/${city}/${pageNumber}`;
+  try {
+    response = await axios.request(options);
+    console.log("RapidAPI Response: " + JSON.stringify(response.data) + '/n');
+    var locations = response.data.restaurants.map(item => ({
+      id: item.id,
+      restaurantName: item.restaurantName,
+      cuisineType: item.cuisineType,
+      phoneNo: item.phone,
+      website: item.website
+    }));
+    res.json(locations);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error, please try again");
+  }
 });
 
 module.exports = router;
 
-// Results of API call page 0
-const dataToTest1 = {
+// Results of Des Moines API call page 0 for testing
+const testData = {
   matching_results: 492,
   restaurants: [{
     id: 19882607,
@@ -193,6 +202,3 @@ const dataToTest1 = {
   }
   ]
 }
-
-// results of data.restuarants page 1
-const data3 = [{ "id": 21267425, "restaurantName": "Casey's", "cuisineType": "Restaurant" }, { "id": 15169148, "restaurantName": "Lazize", "cuisineType": "Restaurant" }, { "id": 3599956, "restaurantName": "The Grill at Holiday Inn Airport Conference Center", "cuisineType": "American" }, { "id": 2696716, "restaurantName": "Buzzard Billy's", "cuisineType": "American,Bar,Cajun & Creole" }, { "id": 2397384, "restaurantName": "Gusto Pizza", "cuisineType": "Italian,Pizza" }, { "id": 415102, "restaurantName": "Tsing Tsao South", "cuisineType": "Chinese,Asian" }, { "id": 13602703, "restaurantName": "Kfc/te", "cuisineType": "Restaurant" }, { "id": 10454512, "restaurantName": "Bernardos Burritos", "cuisineType": "Restaurant" }, { "id": 11697306, "restaurantName": "Buffalo Wild Wings", "cuisineType": "Bar,Pub" }, { "id": 414922, "restaurantName": "Tumea & Sons Restaurant", "cuisineType": "Italian" }]
